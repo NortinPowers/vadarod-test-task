@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: vadarod
+
+  liquibase:
+    change-log: classpath:db/changelog/master-changelog.yaml
