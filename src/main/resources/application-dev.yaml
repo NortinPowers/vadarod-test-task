@@ -4,5 +4,4 @@ spring:
       client:
         config:
           nbrb-service:
-            url: https://api.nbrb.by/exrates/currencies
-#            url:  https://api.nbrb.by/exrates/currencies/456
+            url: https://api.nbrb.by/exrates/rates
