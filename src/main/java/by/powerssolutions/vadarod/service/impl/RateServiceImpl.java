@@ -64,7 +64,7 @@ public class RateServiceImpl implements RateService {
         Optional<Rate> firstByDate = rateRepository.findFirstByDate(responseDate);
         if (firstByDate.isEmpty()) {
             ResponseEntity<String> response = nbrbServiceClient.getAllOnDate(date, periodicity);
-            saveAllOnDate(response.getBody());
+            this.saveAllOnDate(response.getBody());
             return SUCCESS_RATES_UPLOAD_MESSAGE;
         } else {
             return SUCCESS_RATES_UPLOAD_MESSAGE_IF_EXIST;

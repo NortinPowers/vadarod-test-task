@@ -4,9 +4,11 @@ import by.powerssolutions.vadarod.model.BaseResponse;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 @Getter
 @Setter
+@FieldNameConstants
 public class RateResponseDto extends BaseResponse {
 
     private String currency;
