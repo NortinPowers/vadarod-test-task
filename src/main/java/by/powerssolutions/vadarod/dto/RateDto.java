@@ -2,8 +2,8 @@ package by.powerssolutions.vadarod.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import java.time.LocalDate;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,8 +21,8 @@ public class RateDto {
     private Long curId;
 
     @JsonProperty("Date")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime date;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDate date;
 
     @JsonProperty("Cur_Abbreviation")
     private String curAbbreviation;

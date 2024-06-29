@@ -7,3 +7,8 @@ spring:
 
   liquibase:
     change-log: classpath:db/changelog/master-changelog.yaml
+
+request:
+  value:
+    periodicity: 0
+    parammode: 0
