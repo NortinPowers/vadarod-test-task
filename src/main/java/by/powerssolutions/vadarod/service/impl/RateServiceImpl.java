@@ -1,14 +1,18 @@
 package by.powerssolutions.vadarod.service.impl;
 
+import static by.powerssolutions.vadarod.utils.Constants.LETTER_CODE_CURRENCY;
 import static by.powerssolutions.vadarod.utils.Constants.RequestConstants.SUCCESS_RATES_UPLOAD_MESSAGE;
 import static by.powerssolutions.vadarod.utils.Constants.RequestConstants.SUCCESS_RATES_UPLOAD_MESSAGE_IF_EXIST;
 import static by.powerssolutions.vadarod.utils.ObjectUtils.convertDate;
-import static by.powerssolutions.vadarod.utils.ObjectUtils.extractResponse;
+import static by.powerssolutions.vadarod.utils.ObjectUtils.extractResponseDto;
+import static by.powerssolutions.vadarod.utils.ObjectUtils.extractResponseListDto;
 
 import by.powerssolutions.vadarod.client.NbrbServiceClient;
 import by.powerssolutions.vadarod.domain.Rate;
-import by.powerssolutions.vadarod.dto.RateDto;
+import by.powerssolutions.vadarod.dto.request.RateRequestDto;
+import by.powerssolutions.vadarod.dto.response.RateResponseDto;
 import by.powerssolutions.vadarod.mapper.RateMapper;
+import by.powerssolutions.vadarod.model.BaseResponse;
 import by.powerssolutions.vadarod.repository.RateRepository;
 import by.powerssolutions.vadarod.service.RateService;
 import java.time.LocalDate;
@@ -16,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,8 +45,8 @@ public class RateServiceImpl implements RateService {
     @Override
     @Transactional
     public void saveAllOnDate(String data) {
-        List<RateDto> rateDtos = extractResponse(data);
-        List<Rate> rates = rateDtos.stream()
+        List<RateRequestDto> rateRequestDtos = extractResponseListDto(data);
+        List<Rate> rates = rateRequestDtos.stream()
                 .map(rateMapper::toDomain)
                 .toList();
         rateRepository.saveAll(rates);
@@ -64,5 +69,58 @@ public class RateServiceImpl implements RateService {
         } else {
             return SUCCESS_RATES_UPLOAD_MESSAGE_IF_EXIST;
         }
+    }
+
+    /**
+     * Возвращает ответ со значением курса валюты на переданную дату из API или БД.
+     *
+     * @param date String, дата переданная пользователем
+     * @param code String, буквенный код валюты
+     * @return ответ содержащий курс переданной валюты на переданную дату
+     */
+    @Override
+    public ResponseEntity<BaseResponse> checkRatesOnDateByCurrency(String date, String code) {
+        LocalDate responseDate = convertDate(date);
+        Optional<Rate> firstByDate = rateRepository.findFirstByDate(responseDate);
+        RateResponseDto responseDto;
+        if (firstByDate.isEmpty()) {
+            responseDto = getRateResponseDtoFromApi(date, code);
+        } else {
+            responseDto = getRateResponseDtoFromDb(code, responseDate);
+        }
+        responseDto.setStatus(HttpStatus.OK.value());
+        return ResponseEntity.ok(responseDto);
+    }
+
+    /**
+     * Возвращает ответ со значением курса валюты на переданную дату из БД.
+     *
+     * @param code         String, буквенный код валюты
+     * @param responseDate LocalDate, дата для которой нужен курс
+     * @return responseDto RateResponseDto объект содержащий данные о курсе переданной валюты на переданную дату
+     * @throws RuntimeException Если объект с указанными параметрами кода и даты не найден.
+     */
+    private RateResponseDto getRateResponseDtoFromDb(String code, LocalDate responseDate) {
+        RateResponseDto responseDto;
+        Optional<Rate> optionalRate = rateRepository.findByDateAndCurAbbreviation(responseDate, code);
+        if (optionalRate.isPresent()) {
+            responseDto = rateMapper.toResponse(optionalRate.get());
+        } else {
+            throw new RuntimeException("The exchange rate for the specified date was not found");
+        }
+        return responseDto;
+    }
+
+    /**
+     * Возвращает ответ со значением курса валюты на переданную дату из API.
+     *
+     * @param date String, дата переданная пользователем
+     * @param code String, буквенный код валюты
+     * @return responseDto RateResponseDto объект содержащий данные о курсе переданной валюты на переданную дату
+     */
+    private RateResponseDto getRateResponseDtoFromApi(String date, String code) {
+        ResponseEntity<String> response = nbrbServiceClient.getOneOnDate(code, date, LETTER_CODE_CURRENCY);
+        RateRequestDto rateRequestDto = extractResponseDto(response.getBody());
+        return rateMapper.toResponse(rateRequestDto);
     }
 }

@@ -6,6 +6,7 @@ import lombok.experimental.UtilityClass;
 public class Constants {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final Integer LETTER_CODE_CURRENCY = 2;
 
     @UtilityClass
     public class RequestConstants {

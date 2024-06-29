@@ -1,4 +1,4 @@
-package by.powerssolutions.vadarod.dto;
+package by.powerssolutions.vadarod.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-public class RateDto {
+public class RateRequestDto {
 
     @JsonProperty("Cur_ID")
     private Long curId;

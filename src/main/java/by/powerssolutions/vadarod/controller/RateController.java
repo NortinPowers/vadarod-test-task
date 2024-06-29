@@ -1,5 +1,6 @@
 package by.powerssolutions.vadarod.controller;
 
+import by.powerssolutions.vadarod.model.BaseResponse;
 import by.powerssolutions.vadarod.service.RateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,5 +20,11 @@ public class RateController {
     public ResponseEntity<String> getAllOnDate(@PathVariable String date) {
         String message = rateService.checkRatesOnDate(date);
         return ResponseEntity.ok().body(message);
+    }
+
+    @GetMapping("/{date}/{code}")
+    public ResponseEntity<BaseResponse> getAllOnDate(@PathVariable String date,
+                                                     @PathVariable String code) {
+        return rateService.checkRatesOnDateByCurrency(date, code);
     }
 }

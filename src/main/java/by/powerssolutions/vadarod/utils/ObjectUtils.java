@@ -2,7 +2,7 @@ package by.powerssolutions.vadarod.utils;
 
 import static by.powerssolutions.vadarod.utils.Constants.DATE_FORMAT;
 
-import by.powerssolutions.vadarod.dto.RateDto;
+import by.powerssolutions.vadarod.dto.request.RateRequestDto;
 import by.powerssolutions.vadarod.exception.DataConvertException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,13 +25,23 @@ public class ObjectUtils {
         objectMapper.registerModule(new JavaTimeModule());
     }
 
-    public static List<RateDto> extractResponse(String response) {
+    public static List<RateRequestDto> extractResponseListDto(String response) {
+        try {
+            return objectMapper.readValue(response, new TypeReference<>() {
+            });
+        } catch (IOException exception) {
+            log.error("ObjectMapper error during list conversion", exception);
+            throw DataConvertException.of(RateRequestDto.class);
+        }
+    }
+
+    public static RateRequestDto extractResponseDto(String response) {
         try {
             return objectMapper.readValue(response, new TypeReference<>() {
             });
         } catch (IOException exception) {
             log.error("ObjectMapper error during conversion", exception);
-            throw DataConvertException.of(RateDto.class);
+            throw DataConvertException.of(RateRequestDto.class);
         }
     }
 

@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface RateRepository extends JpaRepository<Rate, Long> {
 
     Optional<Rate> findFirstByDate(LocalDate date);
+
+    Optional<Rate> findByDateAndCurAbbreviation(LocalDate date, String code);
 }
