@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-rates-table
+      author: nortin
+      context: ddl
+      changes:
+        - createTable:
+            tableName: rates
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: cur_id
+                  type: bigserial
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cur_abbreviation
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cur_scale
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cur_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cur_official_Rate
+                  type:  double
+                  constraints:
+                    nullable: false
+                    
