@@ -24,3 +24,14 @@ request:
   value:
     periodicity: 0
     parammode: 2
+
+nbrb:
+  openapi:
+    dev-url: http://localhost:8080
+springdoc:
+  swagger-ui:
+    path: /documentation
+    try-it-out-enabled: true
+  api-docs:
+    path: /api-doc
+  packages-to-scan: by.powerssolutions.vadarod.controller

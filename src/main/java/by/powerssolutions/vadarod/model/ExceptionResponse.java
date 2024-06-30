@@ -1,5 +1,6 @@
 package by.powerssolutions.vadarod.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
@@ -8,7 +9,10 @@ import org.springframework.http.HttpStatus;
 @Setter
 public class ExceptionResponse extends BaseResponse {
 
+    @Schema(description = "Exception response message", example = "Some exception")
     private String message;
+
+    @Schema(description = "Exception type", example = "Some exception type")
     private String type;
 
     public ExceptionResponse(HttpStatus status, String message, String type) {
