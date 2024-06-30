@@ -1,6 +1,7 @@
 package by.powerssolutions.vadarod.controller;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
 import by.powerssolutions.vadarod.model.BaseResponse;
 import by.powerssolutions.vadarod.model.ExceptionResponse;
@@ -33,7 +34,7 @@ public class RateController {
             tags = "get"
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = String.class)), mediaType = APPLICATION_JSON_VALUE)}),
+            @ApiResponse(responseCode = "200", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = String.class)), mediaType = TEXT_PLAIN_VALUE)}),
             @ApiResponse(responseCode = "500", content = {@Content(schema = @Schema(implementation = ExceptionResponse.class), mediaType = APPLICATION_JSON_VALUE)})})
     @GetMapping("/{date}")
     public ResponseEntity<String> getAllOnDate(@PathVariable String date) {
