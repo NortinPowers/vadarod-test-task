@@ -2,5 +2,36 @@ spring:
   application:
     name: vadarod
 
+  profiles:
+    active: prod
+
   liquibase:
     change-log: classpath:db/changelog/master-changelog.yaml
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  h2:
+    console.enabled: true
+
+  datasource:
+    url: jdbc:h2:mem:vadarod
+    username: admin
+    password: admin
+    driverClassName: org.h2.Driver
+
+request:
+  value:
+    periodicity: 0
+    parammode: 2
+
+nbrb:
+  openapi:
+    dev-url: http://localhost:8080
+springdoc:
+  swagger-ui:
+    path: /documentation
+    try-it-out-enabled: true
+  api-docs:
+    path: /api-doc
+  packages-to-scan: by.powerssolutions.vadarod.controller

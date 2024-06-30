@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          nbrb-service:
+            url: https://api.nbrb.by/exrates/rates
