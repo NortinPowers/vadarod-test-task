@@ -40,7 +40,7 @@ public class RateServiceImpl implements RateService {
     /**
      * Метод для сохранения всех курсов валюты в базе данных для указанной даты.
      *
-     * @param data String, дата определяющая данные курсов валюты для сохранения
+     * @param data {@link String}, дата определяющая данные курсов валюты для сохранения
      */
     @Override
     @Transactional
@@ -55,7 +55,7 @@ public class RateServiceImpl implements RateService {
     /**
      * Сохраняет полученные значения на основе проверки наличия данных о сохраненных курсах валюты на переданную дату в БД.
      *
-     * @param date String, дата переданная пользователем
+     * @param date {@link String}, дата переданная пользователем
      * @return сообщение для отображения в зависимости от наличия данных о курсе на переданную дату в базе
      */
     @Override
@@ -74,8 +74,8 @@ public class RateServiceImpl implements RateService {
     /**
      * Возвращает ответ со значением курса валюты на переданную дату из API или БД.
      *
-     * @param date String, дата переданная пользователем
-     * @param code String, буквенный код валюты
+     * @param date {@link String}, дата переданная пользователем
+     * @param code {@link String}, буквенный код валюты
      * @return ответ содержащий курс переданной валюты на переданную дату
      */
     @Override
@@ -95,9 +95,9 @@ public class RateServiceImpl implements RateService {
     /**
      * Возвращает ответ со значением курса валюты на переданную дату из БД.
      *
-     * @param code         String, буквенный код валюты
-     * @param responseDate LocalDate, дата для которой нужен курс
-     * @return responseDto RateResponseDto объект содержащий данные о курсе переданной валюты на переданную дату
+     * @param code         {@link String}, буквенный код валюты
+     * @param responseDate {@link LocalDate}, дата для которой нужен курс
+     * @return responseDto {@link RateResponseDto} объект содержащий данные о курсе переданной валюты на переданную дату
      * @throws RuntimeException Если объект с указанными параметрами кода и даты не найден.
      */
     private RateResponseDto getRateResponseDtoFromDb(String code, LocalDate responseDate) {
@@ -114,9 +114,9 @@ public class RateServiceImpl implements RateService {
     /**
      * Возвращает ответ со значением курса валюты на переданную дату из API.
      *
-     * @param date String, дата переданная пользователем
-     * @param code String, буквенный код валюты
-     * @return responseDto RateResponseDto объект содержащий данные о курсе переданной валюты на переданную дату
+     * @param date {@link String}, дата переданная пользователем
+     * @param code {@link String}, буквенный код валюты
+     * @return responseDto {@link RateResponseDto} объект содержащий данные о курсе переданной валюты на переданную дату
      */
     private RateResponseDto getRateResponseDtoFromApi(String date, String code) {
         ResponseEntity<String> response = nbrbServiceClient.getOneOnDate(code, date, LETTER_CODE_CURRENCY);

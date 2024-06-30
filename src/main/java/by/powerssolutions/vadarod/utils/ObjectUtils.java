@@ -25,6 +25,13 @@ public class ObjectUtils {
         objectMapper.registerModule(new JavaTimeModule());
     }
 
+    /**
+     * Метод для извлечения списка объектов типа {@link RateRequestDto} из строкового представления ответа.
+     *
+     * @param response {@link String} Строковое представление ответа, из которого необходимо извлечь список объектов.
+     * @return Список объектов {@link RateRequestDto}, полученный из переданного строкового представления ответа.
+     * @throws DataConvertException В случае ошибки преобразования объекта с помощью {@link ObjectMapper}.
+     */
     public static List<RateRequestDto> extractResponseListDto(String response) {
         try {
             return objectMapper.readValue(response, new TypeReference<>() {
@@ -35,6 +42,13 @@ public class ObjectUtils {
         }
     }
 
+    /**
+     * Метод для извлечения объекта типа {@link RateRequestDto} из строкового представления ответа.
+     *
+     * @param response {@link String} Строковое представление ответа, из которого необходимо извлечь объект.
+     * @return Объект {@link RateRequestDto}, полученный из переданного строкового представления ответа.
+     * @throws DataConvertException В случае ошибки преобразования объекта с помощью {@link ObjectMapper}.
+     */
     public static RateRequestDto extractResponseDto(String response) {
         try {
             return objectMapper.readValue(response, new TypeReference<>() {
@@ -45,6 +59,12 @@ public class ObjectUtils {
         }
     }
 
+    /**
+     * Метод для конвертации строки в объект класса {@link LocalDate}.
+     *
+     * @param date Строка, содержащая дату в формате, определенном переменной DATE_FORMAT.
+     * @return Объект класса {@link LocalDate}, представляющий дату из переданной строки.
+     */
     public static LocalDate convertDate(String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
         return LocalDate.parse(date, formatter);
